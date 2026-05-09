@@ -1,90 +1,388 @@
-Team Task Manager MERN
+TEAM TASK MANAGER
 
-A full-stack team task management application built with React and Tailwind frontend, Node Express and MongoDB backend, featuring JWT authentication and role-based access control.
+A modern full-stack MERN application for efficient team collaboration, project management, and task tracking with role-based access control.
 
-## Production URLs
 
-- **Frontend:** https://teamtaskmanager-production-c148.up.railway.app
-- **Backend:** https://teamtaskmanager-production-9a59.up.railway.app
+LIVE DEMO
 
-## Project Structure
+https://teamtaskmanager-production-c148.up.railway.app
 
-- backend folder contains Express API and Mongoose models
-- frontend folder contains React with Vite, Tailwind CSS, React Router and Axios
+PROJECT OVERVIEW
 
-## Getting Started Locally
+Team Task Manager is a collaborative productivity platform designed for organizations and teams to efficiently manage projects, assign tasks, track progress, and monitor team performance in real time.
 
-### Backend Setup
+The application provides:
 
-- Navigate to the backend folder
-- Copy the env.example file to env and add your MongoDB connection string and JWT secret
-- Run npm install to install dependencies
-- Run npm run seed to create demo users and sample data if needed
-- Run npm run dev to start the development server
-- The backend will run on http://localhost:5000
+- Secure JWT Authentication
+- Role-Based Access Control
+- Project & Task Management
+- Team Collaboration
+- Real-Time Dashboard Analytics
+- Production Deployment on Railway
 
-### Frontend Setup
+FEATURES
 
-- Navigate to the frontend folder
-- Copy the env.example file to env and set VITE_API_URL to http://localhost:5000/api
-- Run npm install to install dependencies
-- Run npm run dev to start the development server
-- The frontend will run on http://localhost:5173
+Authentication & Security
 
-## Demo Accounts
+- User Signup & Login
+- JWT-based Authentication
+- Password Hashing using bcryptjs
+- Protected API Routes
+- Persistent Login Sessions
 
-After running the seed command, you can use these accounts
+Role-Based Access Control
 
-- Admin account with email admin@demo.com and password password123
-- Member account with email member@demo.com and password password123
+Admin:
+- Create/Edit/Delete Projects
+- Create/Edit/Delete Tasks
+- Assign Tasks to Team Members
+- Manage Team Workflow
 
-## Deployment on Railway
+Member:
+- View Assigned Tasks
+- Update Task Status
+- Track Progress
 
-The application can be deployed to Railway by setting up two separate services from the same repository.
+Project Management
 
-### Backend Service Configuration
+- Create New Projects
+- Add Team Members
+- Edit Project Details
+- Delete Projects
+- View Project Progress
 
-- Set the root directory to backend
-- Set build command to npm install
-- Set start command to npm start
-- Configure these environment variables
-  - MONGO_URI for your MongoDB Atlas connection string
-  - JWT_SECRET as a long random string for token signing
-  - PORT which Railway sets automatically
-  - CORS_ORIGIN as your frontend URL such as https://your-frontend.up.railway.app
+Task Management
 
-### Frontend Service Configuration
+- Create Tasks
+- Assign Deadlines
+- Set Task Priorities
+- Update Task Status
+- Filter Tasks
+- Track Completion
 
-- Set the root directory to frontend
-- Set build command to npm install and npm run build
-- Set start command to npm run preview with host 0.0.0.0 and port PORT
-- Configure these environment variables
-  - VITE_API_URL as your backend URL with /api appended, for example https://your-backend.up.railway.app/api
+Dashboard Analytics
 
-A railway.json file is included in each folder for configuration.
+- Total Tasks
+- Completed Tasks
+- Pending Tasks
+- Overdue Tasks
+- Project Progress Statistics
+- Recent Activities
 
-## API Endpoints
 
-### Authentication endpoints
+TECH STACK
 
-- POST /api/auth/signup for user registration
-- POST /api/auth/login for user login
-- GET /api/auth/me to get current user information
+Frontend
+- React.js (Vite)
+- Tailwind CSS
+- React Router DOM
+- Axios
+- Context API
 
-### Project endpoints
+Backend
+- Node.js
+- Express.js
 
-- GET /api/projects to retrieve all projects
-- POST /api/projects to create a new project, admin only
-- PUT /api/projects/:id to update a project, admin only
-- DELETE /api/projects/:id to delete a project, admin only
+Database
+- MongoDB Atlas
 
-### Task endpoints
+Authentication
+- JSON Web Tokens (JWT)
+- bcryptjs
 
-- GET /api/tasks to retrieve all tasks
-- POST /api/tasks to create a new task, admin only
-- PUT /api/tasks/:id to update a task, admin or assignee for status changes
-- DELETE /api/tasks/:id to delete a task, admin only
+Deployment
+- Railway
 
-### User endpoints
+SYSTEM ARCHITECTURE
 
-- GET /api/users to retrieve the list of team members, admin only
+Frontend Structure
+
+frontend/src/
+├── services/api.js
+├── context/AuthContext.jsx
+├── pages/
+│   ├── Login.jsx
+│   ├── Signup.jsx
+│   ├── Dashboard.jsx
+│   ├── Projects.jsx
+│   ├── Tasks.jsx
+│   └── TeamMembers.jsx
+└── components/
+    ├── Layout.jsx
+    └── Modal.jsx
+    
+Backend Structure
+
+backend/
+├── server.js
+├── config/db.js
+├── models/
+│   ├── User.js
+│   ├── Project.js
+│   └── Task.js
+├── routes/
+│   ├── auth.js
+│   ├── projects.js
+│   ├── tasks.js
+│   └── users.js
+├── middleware/
+│   ├── auth.js
+│   └── error.js
+└── seed.js
+
+
+APPLICATION FLOW
+
+1. User visits frontend
+2. User logs in / signs up
+3. Frontend sends API request
+4. Backend validates credentials
+5. JWT token generated
+6. Token stored in localStorage
+7. Protected routes verified using middleware
+8. Dashboard data fetched from MongoDB
+
+
+JWT AUTHENTICATION FLOW
+
+Frontend Axios Interceptor
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
+Backend JWT Middleware
+
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    next();
+  } catch (err) {
+    res.status(401).json({ error: "Invalid token" });
+  }
+};
+
+
+DATABASE DESIGN
+
+Collections
+
+Users
+- Name
+- Email
+- Password
+- Role
+
+Projects
+- Project Name
+- Description
+- Members Array
+
+Tasks
+- Title
+- Description
+- Status
+- Deadline
+- Assigned User
+- Related Project
+
+
+DEPLOYMENT
+
+Railway Deployment
+
+Frontend
+- React production build using Vite
+- Static file hosting
+
+Backend
+- Express.js server
+- MongoDB Atlas integration
+- Environment variable support
+
+
+ENVIRONMENT VARIABLES
+
+Backend .env
+
+MONGO_URI=your_mongodb_connection
+JWT_SECRET=your_secret_key
+PORT=5000
+CORS_ORIGIN=*
+
+Frontend .env
+
+VITE_API_URL=https://your-backend-url.com
+
+
+
+INSTALLATION & SETUP
+
+Clone Repository
+
+git clone <your-repository-url>
+cd team-task-manager
+
+Install Dependencies
+
+Backend
+
+cd backend
+npm install
+
+Frontend
+
+cd frontend
+npm install
+
+
+
+RUN APPLICATION
+
+Backend
+
+npm run dev
+
+Frontend
+
+npm run dev
+
+
+API ENDPOINTS
+
+POST    /api/auth/signup      → User Registration
+POST    /api/auth/login       → User Login
+GET     /api/projects         → Get Projects
+POST    /api/projects         → Create Project
+PUT     /api/projects/:id     → Update Project
+DELETE  /api/projects/:id     → Delete Project
+GET     /api/tasks            → Get Tasks
+POST    /api/tasks            → Create Task
+PUT     /api/tasks/:id        → Update Task
+DELETE  /api/tasks/:id        → Delete Task
+GET     /api/users            → Get Team Members
+
+
+
+CHALLENGES & SOLUTIONS
+
+1. CORS Configuration
+
+Problem:
+Frontend could not communicate with backend in production.
+
+Solution:
+
+app.use(cors({
+  origin: '*',
+  credentials: true
+}));
+
+2. Production API URLs
+
+Problem:
+Hardcoded localhost URLs failed after deployment.
+
+Solution:
+
+baseURL: import.meta.env.VITE_API_URL
+
+3. Token Expiry Handling
+
+Problem:
+Expired JWT tokens caused unauthorized errors.
+
+Solution:
+Axios interceptors redirect users automatically.
+
+--------------------------------------------------
+
+WHAT I LEARNED
+
+- Full-Stack MERN Development
+- RESTful API Design
+- JWT Authentication
+- MongoDB Relationships
+- React Context API
+- Deployment & DevOps
+- Production Debugging
+- Secure Authentication Practices
+- Role-Based Authorization
+
+
+FUTURE IMPROVEMENTS
+
+- Refresh Token Authentication
+- WebSocket Notifications
+- File Uploads
+- Email Notifications
+- Kanban Board
+- Activity Logs
+- Search & Filters
+- Comments System
+- Unit Testing
+- Integration Testing
+
+
+
+PROJECT STATISTICS
+
+- Lines of Code: 2000+
+- REST API Endpoints: 11
+- Database Collections: 3
+- Major Features: 8+
+- Authentication: JWT
+- Deployment: Railway
+
+--------------------------------------------------
+
+DEMO CREDENTIALS
+
+Email: harshith.admin@teamtask.io
+Password: SecurePass@2025!
+
+--------------------------------------------------
+
+WHY THIS PROJECT?
+
+This project was built to gain hands-on experience in:
+
+- Full-stack web development
+- Authentication & security
+- Real-world CRUD applications
+- Deployment workflows
+- Team collaboration systems
+
+It demonstrates practical industry-level concepts including scalable architecture, API development, state management, and production deployment.
+
+
+
+AUTHOR
+
+K Harshit Kumar Reddy
+
+Full Stack Developer | MERN Stack Enthusiast
+
+Email: harshithkumar.reddy08@gmail.com
+
+
+
+
+
+FINAL NOTE
+
+This project reflects my ability to design, develop, deploy, and manage a complete full-stack application independently while following modern development practices and clean architecture principles.
+
+If you like this project, feel free to star the repository.
