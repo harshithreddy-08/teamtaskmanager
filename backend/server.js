@@ -5,7 +5,7 @@ const connectDB = require("./config/db");
 const { notFound, errorHandler } = require("./middleware/error");
 
 const app = express();
-app.use(cors({ origin: process.env.CORS_ORIGIN || "*", credentials: true }));
+app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json());
 
 app.get("/", (_, res) => res.json({ ok: true, name: "Team Task Manager API" }));
