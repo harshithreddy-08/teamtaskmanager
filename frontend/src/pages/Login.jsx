@@ -6,8 +6,8 @@ import { useAuth } from "../context/AuthContext";
 export default function Login() {
   const { login } = useAuth();
   const nav = useNavigate();
-  const [email, setEmail] = useState("admin@demo.com");
-  const [password, setPassword] = useState("password123");
+  const [email, setEmail] = useState("harshith.admin@teamtask.io");
+  const [password, setPassword] = useState("SecurePass@2025!");
   const [loading, setLoading] = useState(false);
 
   const submit = async (e) => {
