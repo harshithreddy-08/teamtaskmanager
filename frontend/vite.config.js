@@ -5,14 +5,16 @@ export default defineConfig({
   plugins: [react()],
 
   server: {
-    host: "0.0.0.0",
     port: 5173,
-    allowedHosts: ["teamtaskmanager-production-c148.up.railway.app"],
+    host: "0.0.0.0",
+    allowedHosts: true,
   },
 
   preview: {
-    host: "0.0.0.0",
     port: 4173,
-    allowedHosts: ["teamtaskmanager-production-c148.up.railway.app"],
+    host: "0.0.0.0",
+    allowedHosts: [
+      "teamtaskmanager-production-c148.up.railway.app",
+    ],
   },
 });
