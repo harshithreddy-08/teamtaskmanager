@@ -9,10 +9,10 @@ const Task = require("./models/Task");
   await connectDB();
   await Promise.all([User.deleteMany(), Project.deleteMany(), Task.deleteMany()]);
 
-  const hash = await bcrypt.hash("password123", 10);
-  const admin = await User.create({ name: "Admin User", email: "admin@demo.com", password: hash, role: "admin" });
-  const member = await User.create({ name: "Member User", email: "member@demo.com", password: hash, role: "member" });
-  const member2 = await User.create({ name: "Jane Dev", email: "jane@demo.com", password: hash, role: "member" });
+  const hash = await bcrypt.hash("SecurePass@2025!", 10);
+  const admin = await User.create({ name: "Harshith Kumar", email: "harshith.admin@teamtask.io", password: hash, role: "admin" });
+  const member = await User.create({ name: "Priya Singh", email: "priya.member@teamtask.io", password: hash, role: "member" });
+  const member2 = await User.create({ name: "Rahul Sharma", email: "rahul.dev@teamtask.io", password: hash, role: "member" });
 
   const p1 = await Project.create({
     title: "Website Redesign",
@@ -37,8 +37,8 @@ const Task = require("./models/Task");
   ]);
 
   console.log("Seeded ✔");
-  console.log("  admin@demo.com  / password123  (admin)");
-  console.log("  member@demo.com / password123  (member)");
-  console.log("  jane@demo.com   / password123  (member)");
+  console.log("  harshith.admin@teamtask.io   / SecurePass@2025!  (admin)");
+  console.log("  priya.member@teamtask.io     / SecurePass@2025!  (member)");
+  console.log("  rahul.dev@teamtask.io        / SecurePass@2025!  (member)");
   process.exit(0);
 })();
