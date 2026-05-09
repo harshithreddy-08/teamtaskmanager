@@ -2,86 +2,89 @@ Team Task Manager MERN
 
 A full-stack team task management application built with React and Tailwind frontend, Node Express and MongoDB backend, featuring JWT authentication and role-based access control.
 
-Project Structure
+## Production URLs
 
-backend folder contains Express API and Mongoose models
-frontend folder contains React with Vite, Tailwind CSS, React Router and Axios
+- **Frontend:** https://teamtaskmanager-production-c148.up.railway.app
+- **Backend:** https://teamtaskmanager-production-9a59.up.railway.app
 
-Getting Started Locally
+## Project Structure
 
-Backend Setup
+- backend folder contains Express API and Mongoose models
+- frontend folder contains React with Vite, Tailwind CSS, React Router and Axios
 
-Navigate to the backend folder
-Copy the env.example file to env and add your MongoDB connection string and JWT secret
-Run npm install to install dependencies
-Run npm run seed to create demo users and sample data if needed
-Run npm run dev to start the development server
-The backend will run on http://localhost:5000
+## Getting Started Locally
 
-Frontend Setup
+### Backend Setup
 
-Navigate to the frontend folder
-Copy the env.example file to env and set VITE_API_URL to http://localhost:5000/api
-Run npm install to install dependencies
-Run npm run dev to start the development server
-The frontend will run on http://localhost:5173
+- Navigate to the backend folder
+- Copy the env.example file to env and add your MongoDB connection string and JWT secret
+- Run npm install to install dependencies
+- Run npm run seed to create demo users and sample data if needed
+- Run npm run dev to start the development server
+- The backend will run on http://localhost:5000
 
-Demo Accounts
+### Frontend Setup
+
+- Navigate to the frontend folder
+- Copy the env.example file to env and set VITE_API_URL to http://localhost:5000/api
+- Run npm install to install dependencies
+- Run npm run dev to start the development server
+- The frontend will run on http://localhost:5173
+
+## Demo Accounts
 
 After running the seed command, you can use these accounts
 
-Admin account with email admin@demo.com and password password123
-Member account with email member@demo.com and password password123
+- Admin account with email admin@demo.com and password password123
+- Member account with email member@demo.com and password password123
 
-Deployment on Railway
+## Deployment on Railway
 
 The application can be deployed to Railway by setting up two separate services from the same repository.
 
-Backend Service Configuration
+### Backend Service Configuration
 
-Set the root directory to backend
-Set build command to npm install
-Set start command to npm start
-Configure these environment variables
+- Set the root directory to backend
+- Set build command to npm install
+- Set start command to npm start
+- Configure these environment variables
+  - MONGO_URI for your MongoDB Atlas connection string
+  - JWT_SECRET as a long random string for token signing
+  - PORT which Railway sets automatically
+  - CORS_ORIGIN as your frontend URL such as https://your-frontend.up.railway.app
 
-MONGO_URI for your MongoDB Atlas connection string
-JWT_SECRET as a long random string for token signing
-PORT which Railway sets automatically
-CORS_ORIGIN as your frontend URL such as https://your-frontend.up.railway.app
+### Frontend Service Configuration
 
-Frontend Service Configuration
-
-Set the root directory to frontend
-Set build command to npm install and npm run build
-Set start command to npm run preview with host 0.0.0.0 and port PORT
-Configure these environment variables
-
-VITE_API_URL as your backend URL with /api appended, for example https://your-backend.up.railway.app/api
+- Set the root directory to frontend
+- Set build command to npm install and npm run build
+- Set start command to npm run preview with host 0.0.0.0 and port PORT
+- Configure these environment variables
+  - VITE_API_URL as your backend URL with /api appended, for example https://your-backend.up.railway.app/api
 
 A railway.json file is included in each folder for configuration.
 
-API Endpoints
+## API Endpoints
 
-Authentication endpoints
+### Authentication endpoints
 
-POST /api/auth/signup for user registration
-POST /api/auth/login for user login
-GET /api/auth/me to get current user information
+- POST /api/auth/signup for user registration
+- POST /api/auth/login for user login
+- GET /api/auth/me to get current user information
 
-Project endpoints
+### Project endpoints
 
-GET /api/projects to retrieve all projects
-POST /api/projects to create a new project, admin only
-PUT /api/projects/:id to update a project, admin only
-DELETE /api/projects/:id to delete a project, admin only
+- GET /api/projects to retrieve all projects
+- POST /api/projects to create a new project, admin only
+- PUT /api/projects/:id to update a project, admin only
+- DELETE /api/projects/:id to delete a project, admin only
 
-Task endpoints
+### Task endpoints
 
-GET /api/tasks to retrieve all tasks
-POST /api/tasks to create a new task, admin only
-PUT /api/tasks/:id to update a task, admin or assignee for status changes
-DELETE /api/tasks/:id to delete a task, admin only
+- GET /api/tasks to retrieve all tasks
+- POST /api/tasks to create a new task, admin only
+- PUT /api/tasks/:id to update a task, admin or assignee for status changes
+- DELETE /api/tasks/:id to delete a task, admin only
 
-User endpoints
+### User endpoints
 
-GET /api/users to retrieve the list of team members, admin only
+- GET /api/users to retrieve the list of team members, admin only
