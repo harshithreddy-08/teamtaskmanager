@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import StatusBadge from "../components/StatusBadge";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
 function Stat({ label, value, tone = "indigo" }) {
   const tones = {
@@ -39,6 +40,22 @@ export default function Dashboard() {
   const mine = tasks.filter((t) => t.assignedTo?._id === user._id);
   const recent = [...tasks].slice(0, 5);
 
+  const COLORS = ['#10b981', '#f59e0b', '#f43f5e', '#6366f1'];
+  
+  const statusData = [
+    { name: 'Completed', value: done },
+    { name: 'Pending', value: pending },
+  ].filter(d => d.value > 0);
+
+  const projectData = projects.map(p => {
+    const ts = tasks.filter((t) => t.project?._id === p._id);
+    return {
+      name: p.title.length > 15 ? p.title.substring(0, 15) + '...' : p.title,
+      Total: ts.length,
+      Completed: ts.filter((t) => t.status === "Done").length
+    };
+  });
+
   return (
     <div className="space-y-6">
       <div>
@@ -51,6 +68,50 @@ export default function Dashboard() {
         <Stat label="Completed" value={done} tone="emerald" />
         <Stat label="Pending" value={pending} tone="amber" />
         <Stat label="Overdue" value={overdue} tone="rose" />
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl bg-white p-5 shadow">
+          <h2 className="mb-4 text-lg font-semibold">Tasks by Status</h2>
+          <div className="h-64">
+            {statusData.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={statusData} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
+                    {statusData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-full items-center justify-center text-slate-400">No data</div>
+            )}
+          </div>
+        </div>
+
+        <div className="rounded-2xl bg-white p-5 shadow">
+          <h2 className="mb-4 text-lg font-semibold">Tasks per Project</h2>
+          <div className="h-64">
+            {projectData.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={projectData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
+                  <YAxis axisLine={false} tickLine={false} />
+                  <Tooltip cursor={{ fill: 'transparent' }} />
+                  <Legend />
+                  <Bar dataKey="Total" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="Completed" fill="#10b981" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-full items-center justify-center text-slate-400">No data</div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

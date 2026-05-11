@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const linkBase = "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition";
@@ -13,7 +13,7 @@ export default function Layout() {
   return (
     <div className="flex min-h-screen">
       <aside className="hidden w-64 flex-col bg-slate-900 p-4 md:flex">
-        <div className="mb-6 px-2 text-xl font-bold text-white">TaskTeam</div>
+        <Link to="/" className="mb-6 px-2 text-xl font-bold text-white">Team Task Manager</Link>
         <nav className="flex flex-col gap-1">
           <NavLink end to="/" className={({isActive}) => `${linkBase} ${isActive?linkActive:linkIdle}`}>Dashboard</NavLink>
           <NavLink to="/projects" className={({isActive}) => `${linkBase} ${isActive?linkActive:linkIdle}`}>Projects</NavLink>
